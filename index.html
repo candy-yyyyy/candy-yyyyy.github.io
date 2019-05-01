@@ -332,8 +332,15 @@
       
         
           
-            <font face="微软雅黑" size="4">在使用私有maven中央库时会遇到没有相应的jar包，此时可以将自己本地的jar包在浏览器上上传到maven的中央库。</font><br><font face="微软雅黑" color="orange" size="6">1、登录nexus服务器</font><br>&emsp;地址：ip:port/nexus/ 进入页面后选择登录 用户名：admin 默认密码：admin123<br><img src="https://s2.ax1x.com/2019/05/01/EJTwdJ.png" alt="avatar"><br><font face="微软雅黑" color="orange" size="6">2、选择上传</font><br><img src="https://s2.ax1x.com/2019/05/01/EJT5FA.png" alt="avatar"><br><font face="微软雅黑" color="orange" size="6">3、填写上传信息</font><br>&emsp;<font face="微软雅黑" size="4">依次在下面的输入框中填写jar包对应的信息。填写完毕后点击下面的”Select Artifact(s) for Upload”按钮，选择自己本地的jar包上传，上传成功后点击最下面的”Upload Artifact(s)按钮”完成整个上传的最后一步。</font><br><font face="微软雅黑" color="orange" size="6">结尾</font><br>&emsp;<font face="微软雅黑" color="red" size="4">在上传成功后可以在页面最左侧的”Advanced Search”按钮上方输入想要查询的jar包名称，查询出来的jar包也能看到对应的pom.xml的配置代码。</font>
-          
+          在使用私有maven中央库时会遇到没有相应的jar包，此时可以将自己本地的jar包在浏览器上上传到maven的中央库。1、登录nexus服务器&emsp;地址：ip:port/nexus/ 进入页面后选择登录 用户名：admin 默认密码：admin1232、选择上传3、填写上传信息&emsp;依次
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/05/01/nexus_publish_jar/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -473,9 +480,15 @@
       
         
           
-            <p>&emsp;<font face="微软雅黑" size="4">使用jatoolsprinter最新免费版插件在IE内核的浏览器（测试时使用的时360浏览器兼容模式）上打印物流单时出现报错提示框“不存在可打印的页！”。由于之前打印顺丰的物流单使用IE内核浏览器能成功打印，但是现在新加页面打印EMS物流单出现这样的报错，为了查找问题将两边页面代码作了详细比较后发现需要在打印的内容div里面设置id=”page1”，加上后再次测试成功。</font></p>
-
-          
+          &emsp;使用jatoolsprinter最新免费版插件在IE内核的浏览器（测试时使用的时360浏览器兼容模式）上打印物流单时出现报错提示框“不存在可打印的页！”。由于之前打印顺丰的物流单使用IE内核浏览器能成功打印，但是现在新加页面打印EMS物流单出现这样的报错，为了查找问题将两边页面代码作了详
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/05/01/jatoolsprinter_1/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -615,9 +628,15 @@
       
         
           
-            <p>&emsp;<font face="微软雅黑" size="4">首先是参考了百度上的一篇文章</font><a href="https://blog.csdn.net/qq_35561857/article/details/81590953" target="_blank" rel="noopener">点击这里</a><font face="微软雅黑" size="4">，基本上覆盖了所有的搭建的要点，但是在自己实现步骤的过程中还是因为自己一些操作的问题折腾了大量时间。本篇文章记录整个过程中本人所遇到各种坑。</font><br>&emsp;<font face="微软雅黑" size="4">最开始遇到的问题是在本地windows系统下ssh连接服务器时无论怎样都需要输入密码，按照文章中的步骤是需要实现ssh免密码登录，查询了各方资料，包括新建立的git用户下/home/git/.ssh以及目录下authorized_keys的权限，本地公钥和服务器上的authorized_keys里面公钥的设置，/etc/ssh/sshd_config里面开启的几个选项（具体的看上面文章的内容）。但是依然存在登录git用户时需要输入密码，再查询了大量文章也在连接时打印出日志(git -vvv git@server_ip)依然没有找到问题所在。最后在重新检查每个步骤的时候发现在拷贝本地公钥到<font color="red">authorized_keys</font>文件里面时，本地时ssh开头而服务器上是sh开头，在修改服务器上的文件内容后登录免密码生效。</font><br>&emsp;<font size="4">解决登录问题后后面的步骤基本就很顺利了，在将本地项目git发布到服务器仓库时出现过几次报错，看准报错信息网上都有对应的解决方法。至此hexo成功部署到个人服务器上。</font></p>
-
-          
+          &emsp;首先是参考了百度上的一篇文章点击这里，基本上覆盖了所有的搭建的要点，但是在自己实现步骤的过程中还是因为自己一些操作的问题折腾了大量时间。本篇文章记录整个过程中本人所遇到各种坑。&emsp;最开始遇到的问题是在本地windows系统下ssh连接服务器时无论怎样都需要输入密码，按照文章中的步
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/04/07/hexo-create/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
