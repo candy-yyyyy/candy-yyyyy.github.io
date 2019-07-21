@@ -79,20 +79,17 @@
 
 
 
-<meta name="description" content="在使用私有maven中央库时会遇到没有相应的jar包，此时可以将自己本地的jar包在浏览器上上传到maven的中央库。1、登录nexus服务器&amp;emsp;地址：ip:port/nexus/ 进入页面后选择登录 用户名：admin 默认密码：admin1232、选择上传3、填写上传信息&amp;emsp;依次在下面的输入框中填写jar包对应的信息。填写完毕后点击下面的”Select Artifact(s)">
+<meta name="description" content="&amp;emsp;在一次开发移动端H5页面时发现ajax请求时没有显示请求等待的加载图形。因为这个ajax请求是在alert的确认按钮的回调函数中执行的，并且使用的是移动端框架的mui.alert()方式，所以首先把问题锁定在了mui这个框架上，通过chrome浏览器调试安卓页面发现，当在调用执行ajax请求时整个页面出现假死状态。&amp;emsp;在搜索了相关方面的资料后最后发现问题的原因：因为ajax使">
 <meta property="og:type" content="article">
-<meta property="og:title" content="在页面上发布jar包到maven中央仓库">
-<meta property="og:url" content="http://c7n6y.top/2019/05/01/nexus_publish_jar/index.html">
+<meta property="og:title" content="使用ajax同步请求请求导致的页面假死">
+<meta property="og:url" content="http://c7n6y.top/2019/07/21/ajaxAsync_1/index.html">
 <meta property="og:site_name" content="c7n6y&#39;s blog">
-<meta property="og:description" content="在使用私有maven中央库时会遇到没有相应的jar包，此时可以将自己本地的jar包在浏览器上上传到maven的中央库。1、登录nexus服务器&amp;emsp;地址：ip:port/nexus/ 进入页面后选择登录 用户名：admin 默认密码：admin1232、选择上传3、填写上传信息&amp;emsp;依次在下面的输入框中填写jar包对应的信息。填写完毕后点击下面的”Select Artifact(s)">
+<meta property="og:description" content="&amp;emsp;在一次开发移动端H5页面时发现ajax请求时没有显示请求等待的加载图形。因为这个ajax请求是在alert的确认按钮的回调函数中执行的，并且使用的是移动端框架的mui.alert()方式，所以首先把问题锁定在了mui这个框架上，通过chrome浏览器调试安卓页面发现，当在调用执行ajax请求时整个页面出现假死状态。&amp;emsp;在搜索了相关方面的资料后最后发现问题的原因：因为ajax使">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://s2.ax1x.com/2019/05/01/EJTwdJ.png">
-<meta property="og:image" content="https://s2.ax1x.com/2019/05/01/EJT5FA.png">
-<meta property="og:updated_time" content="2019-05-01T07:34:12.660Z">
+<meta property="og:updated_time" content="2019-07-21T09:50:06.477Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="在页面上发布jar包到maven中央仓库">
-<meta name="twitter:description" content="在使用私有maven中央库时会遇到没有相应的jar包，此时可以将自己本地的jar包在浏览器上上传到maven的中央库。1、登录nexus服务器&amp;emsp;地址：ip:port/nexus/ 进入页面后选择登录 用户名：admin 默认密码：admin1232、选择上传3、填写上传信息&amp;emsp;依次在下面的输入框中填写jar包对应的信息。填写完毕后点击下面的”Select Artifact(s)">
-<meta name="twitter:image" content="https://s2.ax1x.com/2019/05/01/EJTwdJ.png">
+<meta name="twitter:title" content="使用ajax同步请求请求导致的页面假死">
+<meta name="twitter:description" content="&amp;emsp;在一次开发移动端H5页面时发现ajax请求时没有显示请求等待的加载图形。因为这个ajax请求是在alert的确认按钮的回调函数中执行的，并且使用的是移动端框架的mui.alert()方式，所以首先把问题锁定在了mui这个框架上，通过chrome浏览器调试安卓页面发现，当在调用执行ajax请求时整个页面出现假死状态。&amp;emsp;在搜索了相关方面的资料后最后发现问题的原因：因为ajax使">
 
 
 
@@ -122,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://c7n6y.top/2019/05/01/nexus_publish_jar/">
+  <link rel="canonical" href="http://c7n6y.top/2019/07/21/ajaxAsync_1/">
 
 
 
 
 
-  <title>在页面上发布jar包到maven中央仓库 | c7n6y's blog</title>
+  <title>使用ajax同步请求请求导致的页面假死 | c7n6y's blog</title>
   
 
 
@@ -245,7 +242,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://c7n6y.top/2019/05/01/nexus_publish_jar/">
+    <link itemprop="mainEntityOfPage" href="http://c7n6y.top/2019/07/21/ajaxAsync_1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="c7n6y">
@@ -262,7 +259,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">在页面上发布jar包到maven中央仓库</h1>
+          <h1 class="post-title" itemprop="name headline">使用ajax同步请求请求导致的页面假死</h1>
         
 
         <div class="post-meta">
@@ -274,8 +271,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-01T15:34:12+08:00">
-                2019-05-01
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-21T17:49:02+08:00">
+                2019-07-21
               </time>
             
 
@@ -297,8 +294,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/maven/" itemprop="url" rel="index">
-                    <span itemprop="name">maven</span>
+                  <a href="/categories/踩坑/" itemprop="url" rel="index">
+                    <span itemprop="name">踩坑</span>
                   </a>
                 </span>
 
@@ -334,7 +331,10 @@
       
 
       
-        <font face="微软雅黑" size="4">在使用私有maven中央库时会遇到没有相应的jar包，此时可以将自己本地的jar包在浏览器上上传到maven的中央库。</font><br><font face="微软雅黑" color="orange" size="6">1、登录nexus服务器</font><br>&emsp;地址：ip:port/nexus/ 进入页面后选择登录 用户名：admin 默认密码：admin123<br><img src="https://s2.ax1x.com/2019/05/01/EJTwdJ.png" alt="avatar"><br><font face="微软雅黑" color="orange" size="6">2、选择上传</font><br><img src="https://s2.ax1x.com/2019/05/01/EJT5FA.png" alt="avatar"><br><font face="微软雅黑" color="orange" size="6">3、填写上传信息</font><br>&emsp;<font face="微软雅黑" size="4">依次在下面的输入框中填写jar包对应的信息。填写完毕后点击下面的”Select Artifact(s) for Upload”按钮，选择自己本地的jar包上传，上传成功后点击最下面的”Upload Artifact(s)按钮”完成整个上传的最后一步。</font><br><font face="微软雅黑" color="orange" size="6">结尾</font><br>&emsp;<font face="微软雅黑" color="red" size="4">在上传成功后可以在页面最左侧的”Advanced Search”按钮上方输入想要查询的jar包名称，查询出来的jar包也能看到对应的pom.xml的配置代码。</font>
+        <p><font face size="4"></font></p>
+<p>&emsp;在一次开发移动端H5页面时发现ajax请求时没有显示请求等待的加载图形。因为这个ajax请求是在alert的确认按钮的回调函数中执行的，并且使用的是移动端框架的mui.alert()方式，所以首先把问题锁定在了mui这个框架上，通过chrome浏览器调试安卓页面发现，当在调用执行ajax请求时整个页面出现假死状态。</p><br><p>&emsp;在搜索了相关方面的资料后最后发现问题的原因：因为ajax使用了同步请求的关系，导致浏览器的UI渲染线程也同步等待着请求，因此在请求结束结束前整个浏览器都处于等待情况，出现的情况就是在ajax中的beforeSend函数中执行的loading图形无法正常加载。只要将同步改成异步就能正常执行，整个问题在firefox中不存在，在chrome浏览器中存在，因此也导致了在安卓手机上的H5页面出现这样的情况。</p><br><p>&emsp;在本次需求开发中这个ajax请求使用异步或者同步其实影响不大，但是如果需要调用函数中的ajax请求并且最后返回一个结果时如何解决这个问题呢？在以往的经验中如果需要返回一个结果必定要采用ajax的请求设置为同步，但是目前来看设置为同步后导致UI加载的停止，这样又影响页面的使用体验。查询相关资料后发现已经有很成熟的处理方式了。在Jquery1.5以后版本中提供了一个deferred的对象，这个对象能在异步请求的同时获取请求返回的结果。</p><br><br><p>&emsp;例子代码如下：</p>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="keyword">var</span> defer = $.Deferred();</span><br><span class="line">	<span class="keyword">var</span> urlStr = <span class="string">"postcommit.html?I_SOURCE=getxliff"</span>;</span><br><span class="line">	$.ajax(&#123;</span><br><span class="line">		url : urlStr,</span><br><span class="line">		success: <span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</span><br><span class="line">				  defer.resolve(data);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;);        </span><br><span class="line">	<span class="keyword">return</span> defer.promise();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> result = $.when(test()).done(<span class="function"><span class="keyword">function</span>(<span class="params">dataStr</span>)</span>&#123;</span><br><span class="line">	alert(dataStr);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
       
     </div>
     
@@ -358,8 +358,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/05/01/jatoolsprinter_1/" rel="next" title="jatoolsprinter解决IE内核的打印提示“不存在可打印的页！”">
-                <i class="fa fa-chevron-left"></i> jatoolsprinter解决IE内核的打印提示“不存在可打印的页！”
+              <a href="/2019/07/14/online_problem1/" rel="next" title="记一次生产上线遇到的问题">
+                <i class="fa fa-chevron-left"></i> 记一次生产上线遇到的问题
               </a>
             
           </div>
@@ -367,10 +367,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/07/06/python_1/" rel="prev" title="python爬虫获取信息并通知（入门）">
-                python爬虫获取信息并通知（入门） <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
