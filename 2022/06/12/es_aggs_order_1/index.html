@@ -79,15 +79,15 @@
 
 
 
-<meta name="description" content="&amp;emsp;首先是参考了百度上的一篇文章点击这里，基本上覆盖了所有的搭建的要点，但是在自己实现步骤的过程中还是因为自己一些操作的问题折腾了大量时间。本篇文章记录整个过程中本人所遇到各种坑。&amp;emsp;最开始遇到的问题是在本地windows系统下ssh连接服务器时无论怎样都需要输入密码，按照文章中的步骤是需要实现ssh免密码登录，查询了各方资料，包括新建立的git用户下&#x2F;h">
+<meta name="description" content="&amp;emsp; 在ES中如果需要实现聚合排序的功能是相比通过sql语句实现要复杂一些的，以一个基础的例子来讲：    12select a.column_1, a.column_2, a.total from (select a.column_1, a.column_2, count(*) as total from a group by a.column_1, a.column_2 ) a OR">
 <meta property="og:type" content="article">
-<meta property="og:title" content="记搭建hexo并且部署至个人服务器上的陷阱">
-<meta property="og:url" content="http://c7n6y.top/2019/04/07/hexo-create/index.html">
+<meta property="og:title" content="关于Elasticsearch中聚合排序的实现">
+<meta property="og:url" content="http://c7n6y.top/2022/06/12/es_aggs_order_1/index.html">
 <meta property="og:site_name" content="c7n6y&#39;s blog">
-<meta property="og:description" content="&amp;emsp;首先是参考了百度上的一篇文章点击这里，基本上覆盖了所有的搭建的要点，但是在自己实现步骤的过程中还是因为自己一些操作的问题折腾了大量时间。本篇文章记录整个过程中本人所遇到各种坑。&amp;emsp;最开始遇到的问题是在本地windows系统下ssh连接服务器时无论怎样都需要输入密码，按照文章中的步骤是需要实现ssh免密码登录，查询了各方资料，包括新建立的git用户下&#x2F;h">
+<meta property="og:description" content="&amp;emsp; 在ES中如果需要实现聚合排序的功能是相比通过sql语句实现要复杂一些的，以一个基础的例子来讲：    12select a.column_1, a.column_2, a.total from (select a.column_1, a.column_2, count(*) as total from a group by a.column_1, a.column_2 ) a OR">
 <meta property="og:locale">
-<meta property="article:published_time" content="2019-04-07T15:01:01.000Z">
-<meta property="article:modified_time" content="2019-04-07T15:01:01.000Z">
+<meta property="article:published_time" content="2022-06-12T13:06:50.036Z">
+<meta property="article:modified_time" content="2022-06-12T13:31:06.076Z">
 <meta property="article:author" content="c7n6y">
 <meta name="twitter:card" content="summary">
 
@@ -119,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://c7n6y.top/2019/04/07/hexo-create/"/>
+  <link rel="canonical" href="http://c7n6y.top/2022/06/12/es_aggs_order_1/"/>
 
 
 
 
 
-  <title>记搭建hexo并且部署至个人服务器上的陷阱 | c7n6y's blog</title>
+  <title>关于Elasticsearch中聚合排序的实现 | c7n6y's blog</title>
   
 
 
@@ -242,7 +242,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://c7n6y.top/2019/04/07/hexo-create/">
+    <link itemprop="mainEntityOfPage" href="http://c7n6y.top/2022/06/12/es_aggs_order_1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -259,7 +259,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">记搭建hexo并且部署至个人服务器上的陷阱</h1>
+          <h1 class="post-title" itemprop="name headline">关于Elasticsearch中聚合排序的实现</h1>
         
 
         <div class="post-meta">
@@ -271,8 +271,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-07T23:01:01+08:00">
-                2019-04-07
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2022-06-12T21:06:50+08:00">
+                2022-06-12
               </time>
             
 
@@ -294,8 +294,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/hexo/" itemprop="url" rel="index">
-                    <span itemprop="name">hexo</span>
+                  <a href="/categories/Elasticsearch/" itemprop="url" rel="index">
+                    <span itemprop="name">Elasticsearch</span>
                   </a>
                 </span>
 
@@ -331,7 +331,40 @@
       
 
       
-        <p>&amp;emsp;<font face="微软雅黑" size=4>首先是参考了百度上的一篇文章</font><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_35561857/article/details/81590953">点击这里</a><font face="微软雅黑" size=4>，基本上覆盖了所有的搭建的要点，但是在自己实现步骤的过程中还是因为自己一些操作的问题折腾了大量时间。本篇文章记录整个过程中本人所遇到各种坑。</font><br>&amp;emsp;<font face="微软雅黑" size=4>最开始遇到的问题是在本地windows系统下ssh连接服务器时无论怎样都需要输入密码，按照文章中的步骤是需要实现ssh免密码登录，查询了各方资料，包括新建立的git用户下&#x2F;home&#x2F;git&#x2F;.ssh以及目录下authorized_keys的权限，本地公钥和服务器上的authorized_keys里面公钥的设置，&#x2F;etc&#x2F;ssh&#x2F;sshd_config里面开启的几个选项（具体的看上面文章的内容）。但是依然存在登录git用户时需要输入密码，再查询了大量文章也在连接时打印出日志(git -vvv git@server_ip)依然没有找到问题所在。最后在重新检查每个步骤的时候发现在拷贝本地公钥到<font color="red">authorized_keys</font>文件里面时，本地时ssh开头而服务器上是sh开头，在修改服务器上的文件内容后登录免密码生效。</font><br>&amp;emsp;<font size=4>解决登录问题后后面的步骤基本就很顺利了，在将本地项目git发布到服务器仓库时出现过几次报错，看准报错信息网上都有对应的解决方法。至此hexo成功部署到个人服务器上。</font></p>
+        <font size=4>
+<p>&emsp;
+在ES中如果需要实现聚合排序的功能是相比通过sql语句实现要复杂一些的，以一个基础的例子来讲：
+</p>
+
+
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> a.column_1, a.column_2, a.total <span class="keyword">from</span> (</span><br><span class="line"><span class="keyword">select</span> a.column_1, a.column_2, <span class="built_in">count</span>(<span class="operator">*</span>) <span class="keyword">as</span> total <span class="keyword">from</span> a <span class="keyword">group</span> <span class="keyword">by</span> a.column_1, a.column_2 ) a <span class="keyword">ORDER</span> <span class="keyword">BY</span> total <span class="keyword">desc</span> limit <span class="number">10</span></span><br></pre></td></tr></table></figure>
+<br>
+<p>&emsp;
+以上述sql为例子，需要通过2个字段的分组，然后获取分组的总数并且按倒序排序，取最大的总数最大的10条数据。
+</p>
+
+<p>先展示结果：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;query&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;bool&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;must&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;aggs&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;agg-exmaple&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;terms&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">                <span class="attr">&quot;script&quot;</span><span class="punctuation">:</span> <span class="string">&quot;doc[&#x27;column_1.keyword&#x27;]+&#x27;#&#x27;+doc[&#x27;column_2.keyword&#x27;]&quot;</span><span class="punctuation">,</span> </span><br><span class="line">                <span class="attr">&quot;size&quot;</span><span class="punctuation">:</span> <span class="number">10</span><span class="punctuation">,</span></span><br><span class="line">                <span class="attr">&quot;min_doc_count&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">                <span class="attr">&quot;shard_min_doc_count&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">                <span class="attr">&quot;show_term_doc_count_error&quot;</span><span class="punctuation">:</span> <span class="keyword">true</span><span class="punctuation">,</span></span><br><span class="line">                <span class="attr">&quot;shard_size&quot;</span><span class="punctuation">:</span> <span class="number">100</span><span class="punctuation">,</span> </span><br><span class="line">                <span class="attr">&quot;order&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">                    <span class="punctuation">&#123;</span></span><br><span class="line">                        <span class="attr">&quot;_count&quot;</span><span class="punctuation">:</span> <span class="string">&quot;desc&quot;</span></span><br><span class="line">                    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">                    <span class="punctuation">&#123;</span></span><br><span class="line">                        <span class="attr">&quot;_key&quot;</span><span class="punctuation">:</span> <span class="string">&quot;asc&quot;</span></span><br><span class="line">                    <span class="punctuation">&#125;</span></span><br><span class="line">                <span class="punctuation">]</span></span><br><span class="line">            <span class="punctuation">&#125;</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<br>
+<p>&emsp;这里面需要注意的一个参数是shard_size。</p>
+<br>
+
+<p>&emsp;因为ES是采用的分片的模式存储数据的，当执行查询操作时查询语句会进入每个分片中根据条件查询最大的10条数据，根据查询结果再组装成最后返回给客户端的数据。这样每个分片中的最大的10条数据汇聚出来数据不一定是客户端想要的结果，导致最后的数据出现误差，通过设置show_term_doc_count_error参数为true，可以看到聚合结果返回的误差值，如果为0表示没有误差否则存在误差数据。</p>
+
+<br>
+<p>&emsp;因此这里设置参数shard_size表示查询每个分片的数据条数，在每个分片中取的足够多的数据后再组装成最后需要的结果数据。这个参数设置的越大数据会更加精准，同时查询效率也会相应的降低，根据实际情况调整这个参数值。
+</p>
+<br>
+
+<p>&emsp;
+
+</p>
+
+
+</font>
+
+
 
       
     </div>
@@ -356,15 +389,15 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2021/05/22/spring%E5%8A%A8%E6%80%81%E6%95%B0%E6%8D%AE%E6%BA%90/" rel="next" title="spring动态数据源">
+                <i class="fa fa-chevron-left"></i> spring动态数据源
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/05/01/jatoolsprinter_1/" rel="prev" title="jatoolsprinter解决IE内核的打印提示“不存在可打印的页！”">
-                jatoolsprinter解决IE内核的打印提示“不存在可打印的页！” <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
