@@ -88,7 +88,7 @@
 <meta property="og:locale">
 <meta property="og:image" content="https://i.imgur.com/H9X4LLf.png">
 <meta property="article:published_time" content="2024-02-09T16:00:00.000Z">
-<meta property="article:modified_time" content="2024-02-10T10:26:04.401Z">
+<meta property="article:modified_time" content="2024-02-10T11:24:42.601Z">
 <meta property="article:author" content="c7n6y">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://i.imgur.com/H9X4LLf.png">
@@ -374,9 +374,7 @@
 <p><span style="color:red">这里的 CACHE_UTIL.removeSessionItem(‘page-spy-room’) 是清除当前页面key为page-spy-room的session缓存，目的是为了每跳转一个新的页面则创建，否则打开新页面时还是复用的之前的缓存数据，导致用的是同一个房间。</span></p>
 </li>
 <li><p>实例化pagespy</p>
-<p>&#96;&#96;&#96;javascript<br>&#x2F;&#x2F; 异常捕获，不影响页面<br>try {<br>const title &#x3D; $(‘title’).text() + ‘&#x2F;‘ + acceptOperNo;<br>const apiPreFix &#x3D; window.location.hostname + “:” + window.location.port<br>window.$pageSpy &#x3D; new PageSpy({<br>    api: apiPreFix + “&#x2F;zqApcWeb&#x2F;pagespy”,<br>    project: “zq-pc”,<br>    title: title,<br>    autoRender: false<br>});<br>} catch (e) {</p>
-<p>}</p>
-</li>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 异常捕获，不影响页面</span></span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> title = $(<span class="string">&#x27;title&#x27;</span>).<span class="title function_">text</span>() + <span class="string">&#x27;/&#x27;</span> + acceptOperNo;</span><br><span class="line">    <span class="keyword">const</span> apiPreFix = <span class="variable language_">window</span>.<span class="property">location</span>.<span class="property">hostname</span> + <span class="string">&quot;:&quot;</span> + <span class="variable language_">window</span>.<span class="property">location</span>.<span class="property">port</span></span><br><span class="line">    <span class="variable language_">window</span>.<span class="property">$pageSpy</span> = <span class="keyword">new</span> <span class="title class_">PageSpy</span>(&#123;</span><br><span class="line">        <span class="attr">api</span>: apiPreFix + <span class="string">&quot;/zqApcWeb/pagespy&quot;</span>,</span><br><span class="line">        <span class="attr">project</span>: <span class="string">&quot;zq-pc&quot;</span>,</span><br><span class="line">        <span class="attr">title</span>: title,</span><br><span class="line">        <span class="attr">autoRender</span>: <span class="literal">false</span></span><br><span class="line">    &#125;);</span><br><span class="line">&#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
 </ul>
 </li>
 </ol>
