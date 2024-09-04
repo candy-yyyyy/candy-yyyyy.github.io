@@ -199,14 +199,20 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <font face='' size=4>
+          <font face size="4">
 <p>&emsp;在一次开发移动端H5页面时发现ajax请求时没有显示请求等待的加载图形。因为这个ajax请求是在alert的确认按钮的回调函数中执行的，并且使用的是移动端框架的mui.alert()方式，所以首先把问题锁定在了mui这个框架上，通过chrome浏览器调试安卓页面发现，当在调用执行ajax请求时整个页面出现假死状态。</p>
 <p>&emsp;在搜索了相关方面的资料后最后发现问题的原因：因为ajax使用了同步请求的关系，导致浏览器的UI渲染线程也同步等待着请求，因此在请求结束结束前整个浏览器都处于等待情况，出现的情况就是在ajax中的beforeSend函数中执行的loading图形无法正常加载。只要将同步改成异步就能正常执行，整个问题在firefox中不存在，在chrome浏览器中存在，因此也导致了在安卓手机上的H5页面出现这样的情况。</p>
 <p>&emsp;在本次需求开发中这个ajax请求使用异步或者同步其实影响不大，但是如果需要调用函数中的ajax请求并且最后返回一个结果时如何解决这个问题呢？在以往的经验中如果需要返回一个结果必定要采用ajax的请求设置为同步，但是目前来看设置为同步后导致UI加载的停止，这样又影响页面的使用体验。查询相关资料后发现已经有很成熟的处理方式了。在Jquery1.5以后版本中提供了一个deferred的对象，这个对象能在异步请求的同时获取请求返回的结果。</p>
 </font>
 <p>&emsp;例子代码如下：</p>
-
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">test</span>(<span class="params"></span>)&#123;</span><br><span class="line">	<span class="keyword">var</span> defer = $.<span class="title class_">Deferred</span>();</span><br><span class="line">	<span class="keyword">var</span> urlStr = <span class="string">&quot;postcommit.html?I_SOURCE=getxliff&quot;</span>;</span><br><span class="line">	$.<span class="title function_">ajax</span>(&#123;</span><br><span class="line">		url : urlStr,</span><br><span class="line">		<span class="attr">success</span>: <span class="keyword">function</span>(<span class="params">data</span>)&#123;</span><br><span class="line">				  defer.<span class="title function_">resolve</span>(data);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;);        </span><br><span class="line">	<span class="keyword">return</span> defer.<span class="title function_">promise</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> result = $.<span class="title function_">when</span>(<span class="title function_">test</span>()).<span class="title function_">done</span>(<span class="keyword">function</span>(<span class="params">dataStr</span>)&#123;</span><br><span class="line">	<span class="title function_">alert</span>(dataStr);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2024/09/05/ajaxAsync_1/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -373,15 +379,6 @@
           <p><font face="雅黑" size="5">由于在生活中会遇到停水电气的情况，但实际上有些情况是存在通知消息的，我们不能无时无刻进入相关网站查询，因此需要建立一个爬虫程序定时获取相关的信息并且推送至需要的人。</font></p>
 <p>
 <font face="雅黑" size="4">&emsp;之前也涉及到使用JAVA编写爬虫程序获取数据，使用JAVA无论是在拉取页面或者相关第三方库引用时效率过低，使用不太灵活，借此机会入门python编写爬虫程序。</font>
-</p>
-<p>
-<font face="雅黑" size="4">&emsp;1、首先收集相关网站的数据获取的方式，首先查询信息来源的途径，优先考虑接口直接返回数据，如果无法通过接口直接获取数据就通过页面获取静态数据。通过分析得到停气、停水的通知信息都能顺利通过以上的方式得到。停电通知通过了比较复杂的加密以及校验请求数据，目前无法解决这个问题因此暂时只实现停水和停气的爬虫。</font>
-</p>
-<p>
-<font face="雅黑" size="4">&emsp;2、分析了数据获取方式后开始写python程序，看完一个简单的python实例实现后就着手开始编写，编辑器使用了pycharm。整个爬虫程序并不复杂，设置爬虫程序60分钟执行一次，一次扫描两个网站的页面数据，当扫到关键字后查询redis是否已经扫描过此条信息并且发送邮件通知，当没有标识已发送则发至所需的邮箱进行通知，并且将此条记录的一个关键值作为key值存入redis，防止通知的重复发起。
-</font></p>
-<p>
-<font face="雅黑" size="4">&emsp;3、程序通过几次优化后稳定运行中，因为也是第一次接触python，并且也没有进行系统的学习直接上手一个程序，所以整个过程中还是边查边写的过程。</font>
 </p>
           <!--noindex-->
             <div class="post-button">
@@ -563,9 +560,16 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p><font face='雅黑' size=4>&emsp;在一次版本升级中遇到一个问题，该程序是记录接口调用的日志，记录请求报文和返回报文等数据。代码写在接口调用的出入口，为了保证接口的调用不受此次新增的影响，因此把整块新增的代码写入<font color=red>try-catch</font>中。测试环境升级后功能正常运行，可是升级到生产环境后发现系统很多接口出现报错，由于不能及时定位错误所以暂时回滚了此模块的代码。检查代码后并没有发现什么问题，并且新增代码是写在<font color=red>try-catch</font>中的，更觉得不可能是代码逻辑方面的问题。因此查看生产服务器上的运行日志。因为这个模块重启过所有控制台日志stdout.log没有报错信息，于是又去查看系统的运行日志，由于这个模块是公共接口调出的作用，日志量也相当大，也不知道应该采用什么关键字搜索。突然想到系统回滚的时间，于是搜索这个时间之前一分钟的日志，果然此时发现异常的堆栈信息。看报错是由于<font color=red>javaNotFindClassException</font>，有一个工具类没有找到，因为是用的dubbo，所以很明显是有一个这个工具类的jar包中没有所需要的类。重新上传最新版jar包后程序正常运行，但好奇的是为什么这段代码放到<font color=red>try-catch</font>中还是因为报了异常，没有成功捕获。查了资料发现因为是<font color=red>javaNotFindClassException</font>级别的异常，这种异常已经不属于业务代码的异常了而是属于级别更高的编译层面的，而我们这段程序代码所设置捕获的异常是<font color=red>Exception</font>，因此自然而然无法正常捕获。如果此时将这块代码采用<font color=red>Throwable</font>捕获异常程序就不会报错。</font></p>
-<p><font face='雅黑' size=4>&emsp;看了相关资料后发现<font color=red>Throwable</font>这种异常捕获虽然捕获的范围广但是也并不建议都这么做，因为异常捕获后是需要做异常补偿处理的。如果已经到触发了<font color=red>Throwable</font>级别的异常意味着如果程序不做变动的话只要执行这段代码必定会出现异常，捕获异常这件事也没什么意义了。具体需要怎么做还是要根据当时的场景来决定的，而不能一味使用一种方法。</font></p>
-
+          <p><font face="雅黑" size="4">&emsp;在一次版本升级中遇到一个问题，该程序是记录接口调用的日志，记录请求报文和返回报文等数据。代码写在接口调用的出入口，为了保证接口的调用不受此次新增的影响，因此把整块新增的代码写入<font color="red">try-catch</font>中。测试环境升级后功能正常运行，可是升级到生产环境后发现系统很多接口出现报错，由于不能及时定位错误所以暂时回滚了此模块的代码。检查代码后并没有发现什么问题，并且新增代码是写在<font color="red">try-catch</font>中的，更觉得不可能是代码逻辑方面的问题。因此查看生产服务器上的运行日志。因为这个模块重启过所有控制台日志stdout.log没有报错信息，于是又去查看系统的运行日志，由于这个模块是公共接口调出的作用，日志量也相当大，也不知道应该采用什么关键字搜索。突然想到系统回滚的时间，于是搜索这个时间之前一分钟的日志，果然此时发现异常的堆栈信息。看报错是由于<font color="red">javaNotFindClassException</font>，有一个工具类没有找到，因为是用的dubbo，所以很明显是有一个这个工具类的jar包中没有所需要的类。重新上传最新版jar包后程序正常运行，但好奇的是为什么这段代码放到<font color="red">try-catch</font>中还是因为报了异常，没有成功捕获。查了资料发现因为是<font color="red">javaNotFindClassException</font>级别的异常，这种异常已经不属于业务代码的异常了而是属于级别更高的编译层面的，而我们这段程序代码所设置捕获的异常是<font color="red">Exception</font>，因此自然而然无法正常捕获。如果此时将这块代码采用<font color="red">Throwable</font>捕获异常程序就不会报错。</font></p>
+<p><font face="雅黑" size="4">&emsp;看了相关资料后发现<font color="red">Throwable</font>这种异常捕获虽然捕获的范围广但是也并不建议都这么做，因为异常捕获后是需要做异常补偿处理的。如果已经到触发了<font color="red">Throwable</font>级别的异常意味着如果程序不做变动的话只要执行这段代码必定会出现异常，捕获异常这件事也没什么意义了。具体需要怎么做还是要根据当时的场景来决定的，而不能一味使用一种方法。</font></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2024/09/05/online_problem1/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 

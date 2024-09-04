@@ -205,23 +205,6 @@
 </li>
 </ul>
 <p>官方网址：<a href="https://umami.is/">https://umami.is/</a></p>
-<p>官方GitHub：<a href="https://github.com/umami-software/umami">https://github.com/umami-software/umami</a></p>
-<h1 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h1><ol>
-<li><p>因为我需要在nginx中配置访问umami页面的虚拟目录，比如默认的访问地址为：localhost:3000，但是通过nginx代理后访问的路径为localhost:8000&#x2F;umami-analytics。在默认的已构建好的docker容器中是不支持设置根目录的，导致页面虽然能代理后访问带根目录的地址，但是静态资源js、css等文件是没有办法访问的。在构建镜像之前支持传递参数BASE_PATH设置根目录的路径，因此需要将原Dockerfile文件拉下来后自己构建镜像。原因也很简单，因为前端工程是在构建镜像的时候编译构建的，因此只有在编译构建之前将根目录这个参数设置好就可以了。</p>
-</li>
-<li><p>拉取github上umami的整个工程文件。</p>
-</li>
-<li><p>本地拉取成功后构建镜像，其中<span style="color:red">BASE_PATH</span>为根目录地址参数，<span style="color:red;">DATABASE_TYPE</span>为数据库类型，这里用到的是mysql，构建过程中可能会报错，需要查看具体的报错内容，大部分原因是因为网络可能导致文件没有访问得到，或者基础镜像没有拉取成功。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker image build --build-arg BASE_PATH=/umami-analytics --build-arg DATABASE_TYPE=mysql -t &quot;umami-app:1.0.1&quot; .</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>将本地镜像重新标签后推送至中央镜像库，命令大概是 docker tag … ，docker push …</p>
-</li>
-<li><p>构建k8s的Deployment</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"> <span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line"> <span class="attr">apiVersion:</span> <span class="string">apps/v1</span></span><br><span class="line"> <span class="attr">metadata:</span></span><br><span class="line"><span class="attr">name:</span> <span class="string">umami</span></span><br><span class="line"><span class="attr">namespace:</span> <span class="string">default</span></span><br><span class="line"><span class="attr">labels:</span></span><br><span class="line"><span class="attr">k8s-app:</span> <span class="string">umami</span></span><br><span class="line"> <span class="attr">spec:</span></span><br><span class="line"><span class="attr">replicas:</span> <span class="number">1</span></span><br><span class="line"><span class="attr">selector:</span></span><br><span class="line"><span class="attr">matchLabels:</span></span><br><span class="line">  <span class="attr">k8s-app:</span> <span class="string">umami</span></span><br><span class="line"><span class="attr">template:</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">umami</span></span><br><span class="line">  <span class="attr">creationTimestamp:</span> <span class="literal">null</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">k8s-app:</span> <span class="string">umami</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">containers:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">umami</span></span><br><span class="line">      <span class="attr">image:</span> <span class="string">&#x27;aaa/umami:1.1&#x27;</span></span><br><span class="line">      <span class="attr">env:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">TZ</span></span><br><span class="line">          <span class="attr">value:</span> <span class="string">Asia/Shanghai</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">DATABASE_URL</span></span><br><span class="line">          <span class="attr">value:</span> <span class="string">&#x27;mysql://user:password@ip:port/database&#x27;</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">DATABASE_TYPE</span></span><br><span class="line">          <span class="attr">value:</span> <span class="string">mysql</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">HASH_SALT</span></span><br><span class="line">          <span class="attr">value:</span> <span class="string">Umami-tydic</span></span><br><span class="line">      <span class="attr">resources:</span></span><br><span class="line">        <span class="attr">limits:</span></span><br><span class="line">          <span class="attr">cpu:</span> <span class="string">&#x27;1&#x27;</span></span><br><span class="line">          <span class="attr">memory:</span> <span class="string">1Gi</span></span><br><span class="line">        <span class="attr">requests:</span></span><br><span class="line">          <span class="attr">cpu:</span> <span class="string">&#x27;1&#x27;</span></span><br><span class="line">          <span class="attr">memory:</span> <span class="string">1Gi</span></span><br><span class="line">  <span class="attr">restartPolicy:</span> <span class="string">Always</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>构建k8s中的service（用于在k8s中的服务发现，直接通过name中的pagespy就能访问该容器）</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">kind:</span> <span class="string">Service</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">umami</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">default</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">k8s-app:</span> <span class="string">umami</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">ports:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">umami</span></span><br><span class="line">      <span class="attr">protocol:</span> <span class="string">TCP</span></span><br><span class="line">      <span class="attr">port:</span> <span class="number">3000</span></span><br><span class="line">      <span class="attr">targetPort:</span> <span class="number">3000</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">k8s-app:</span> <span class="string">umami</span></span><br></pre></td></tr></table></figure></li>
-</ol>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2024/02/15/umami%E5%9C%A8k8s%E4%B8%8A%E7%9A%84%E6%90%AD%E5%BB%BA/#more" rel="contents">
@@ -307,10 +290,6 @@
 </li>
 </ul>
 <p>官方网址：<a href="https://www.pagespy.org/">https://www.pagespy.org/</a></p>
-<p>官方GitHub：<a href="https://github.com/HuolalaTech/page-spy-web">https://github.com/HuolalaTech/page-spy-web</a></p>
-<h1 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h1><ol>
-<li>获取官方的docker镜像</li>
-</ol>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2024/02/10/pagespy%E5%9C%A8k8s%E4%B8%8A%E7%9A%84%E6%90%AD%E5%BB%BA/#more" rel="contents">
@@ -386,12 +365,6 @@
 
       
           <h1 id="用途介绍"><a href="#用途介绍" class="headerlink" title="用途介绍"></a>用途介绍</h1><p>由于在k8s中的应用一般都会启动多个pod，导致在查询问题的时候需要挨个到每个pod里面查询日志。为了方便查询问题，需要将每个pod中的日志统一采集后集中存放在一个日志文件。因此在这里引入filebeat用于采集日志，logstash用于收集日志、筛选日志、处理日志，（可选）kafka将日志重新生产消费至其它地方。</p>
-<h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><p>需要准备以下镜像，从docker官方仓库中获取：</p>
-<ul>
-<li>filebeat:6.8.8：与ES版本相同，采集文件中的日志。</li>
-<li>logstash:6.8.8：与ES版本相同，收集日志、解析日志。</li>
-<li>kafka与ElasticSearch：使用现成已有的组件。</li>
-</ul>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2023/09/03/filebeat+logstash%E5%BA%94%E7%94%A8%E6%97%A5%E5%BF%97%E9%87%87%E9%9B%86/#more" rel="contents">
@@ -473,13 +446,6 @@
 
       
           <h1 id="用途介绍"><a href="#用途介绍" class="headerlink" title="用途介绍"></a>用途介绍</h1><p>这里主要针对监控的是k8s上的JAVA应用节点，包括接口调用链的耗时时间，各应用之前调用关系，SQL执行耗时时间等。</p>
-<h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><p>需要准备以下镜像，从docker官方仓库中获取。</p>
-<ul>
-<li>apache-skywalking-apm-bin:8.5：java探针代理程序，启动命令中需要引入此镜像中的jar包文件。</li>
-<li>skywalking-oap-server:9.4.0：skywalking核心服务，用来收集数据以及查询监控数据，也包括将收集的数据发送至ES存储。</li>
-<li>skywalking-ui:9.4.0：skywalking监控UI网页页面，用于展示监控数据。</li>
-<li>nginx：任意nginx，需要提前引入htpasswd组件，用于上面ui页面的访问鉴权。</li>
-</ul>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2023/08/27/k8s_skywalking/#more" rel="contents">
@@ -562,8 +528,14 @@
       
           <p>&emsp;<font face="微软雅黑">最近项目中需要用到动态数据源的功能，这里记录下引入这个功能时遇到的坑。</font></p>
 <p>&emsp;<font face="雅黑">首先整体参考<a href="https://blog.csdn.net/weixin_40922744/article/details/107576748">文章</a>，按照原作者的方法一（符合自己的需求场景）引入项目中后测试，并没有效果。看了评论区也有相同的问题，经过评论区的一些提示多次测试后得出以下结论：</font></p>
-<p>&emsp;<font face="雅黑">最开始进入的误区是切换数据源的时候是调用dao层方法之前，这种做法是没效果的。后面将切换数据源代码放到调用service层之前，也就是aop事务控制的这一层时切换动态数据源生效。</font></p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/05/22/spring%E5%8A%A8%E6%80%81%E6%95%B0%E6%8D%AE%E6%BA%90/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
